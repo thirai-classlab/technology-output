@@ -1,0 +1,13 @@
+{
+  "name": "ai-engineer-skillset",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI時代のエンジニアスキルセット - ナレッジ投稿管理",
+  "scripts": {
+    "test": "bash tests/run-all.sh"
+  },
+  "dependencies": {
+    "@qiita/qiita-cli": "^1.7.0",
+    "zenn-cli": "^0.4.5"
+  }
+}
