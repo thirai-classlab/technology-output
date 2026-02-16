@@ -303,14 +303,18 @@ const hello = "world";
 ### Mermaid.js 図解（4種類対応）
 
 ```html
-<div class="mermaid">
+<!-- wp:html -->
+<pre class="mermaid">
 graph TD
   A --> B
-</div>
+</pre>
+<!-- /wp:html -->
 ```
 
 - 薄い背景 + ボーダー + 角丸 + 中央寄せ
 - Mermaid.js による自動レンダリング（CDN読み込み）
+- **重要**: `<div>` ではなく `<pre>` を使用すること。WordPress の `wptexturize` フィルタが `<div>` 内の `-->` を `–>`（en-dash）、`---` を `—`（em-dash）、`"..."` をスマートクォートに変換し、Mermaid 構文エラーの原因となる。`<pre>` タグ内はテキスト変換がスキップされる
+- 必ず `<!-- wp:html -->` / `<!-- /wp:html -->` で囲むこと
 
 #### 対応ダイアグラム
 
@@ -335,12 +339,14 @@ flowchart TD
 
 wordpress.md:
 ```html
-<div class="mermaid">
+<!-- wp:html -->
+<pre class="mermaid">
 flowchart TD
   A[要件定義] --> B{AIで実装可能?}
   B -->|Yes| C[プロンプト設計]
   B -->|No| D[手動実装]
-</div>
+</pre>
+<!-- /wp:html -->
 ```
 
 ---
@@ -414,7 +420,7 @@ master.md のMarkdown記法から WordPress 用への変換ガイドライン:
 | `` `インラインコード` `` | `<code>コード</code>`（紫テキスト + グラデーション背景） |
 | `[リンク](url)` | `<a href="url">リンク</a>` |
 | コードブロック `` ```lang `` | `<pre class="language-lang" data-lang="Lang"><code>...</code></pre>` |
-| Mermaid `` ```mermaid `` | `<div class="mermaid">...</div>` |
+| Mermaid `` ```mermaid `` | `<!-- wp:html --><pre class="mermaid">...</pre><!-- /wp:html -->` |
 | `![alt](url)` | `<figure class="wp-block-image"><img src="url" alt="alt" /></figure>` |
 | `---`（水平線） | `<hr />` |
 
@@ -438,7 +444,7 @@ master.md のMarkdown記法から WordPress 用への変換ガイドライン:
 | OGP/SEO メタタグ | 構造化データ自動出力 | SEOメタボックス |
 | GA4イベント | 読了率・CTAクリック・コードコピー | カスタマイザー |
 | いいね機能 | 記事ごとのいいねボタン + ランキング | 不要 |
-| Mermaidレンダリング | `<div class="mermaid">` を図解に自動変換 | 不要 |
+| Mermaidレンダリング | `<pre class="mermaid">` を図解に自動変換 | 不要 |
 | コード言語ラベル | `data-lang` 属性で右上にラベル表示 | 不要 |
 | Prism.js ハイライト | 12言語のシンタックスハイライト | 不要 |
 

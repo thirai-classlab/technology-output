@@ -9,7 +9,7 @@
 ## フォーマット
 
 - Gutenbergブロックコメント付きHTML + ショートコード
-- Mermaid対応（`<div class="mermaid">` で囲む）
+- Mermaid対応（`<pre class="mermaid">` で囲む。`<div>` ではなく `<pre>` を使うこと — WordPress の wptexturize が `-->` や `"` を変換してしまうのを防ぐため）
 - SEOメタ情報を記事冒頭にコメントで記載:
   ```
   <!-- SEO
@@ -44,7 +44,8 @@
 
 ## Mermaid.js 図解（4種類対応）
 
-- `<div class="mermaid">...</div>` で囲む（Gutenbergブロックの外に配置）
+- `<pre class="mermaid">...</pre>` で囲み、`<!-- wp:html -->` ブロック内に配置する
+- **重要**: `<div>` ではなく `<pre>` を使用すること（WordPress の wptexturize が `<div>` 内の `-->`, `---`, `"..."` をスマート記号に変換し、Mermaid 構文エラーの原因となるため）
 - テーマが Mermaid.js CDN を読み込み、自動レンダリングする
 - 対応: フローチャート(`flowchart`/`graph`)、シーケンス図(`sequenceDiagram`)、ガントチャート(`gantt`)、クラス図(`classDiagram`)
 

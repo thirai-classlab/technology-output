@@ -25,7 +25,7 @@ user-invokable: true
    - Gutenberg ブロックコメント（`<!-- wp:paragraph -->` 等）で構造化されていること
    - ショートコード（`[note]`, `[steps]`, `[timeline]` 等）がブロックの外に配置されていること
    - コードブロックが `<pre class="language-xxx" data-lang="Xxx">` 形式であること
-   - Mermaid 図が `<div class="mermaid">` で囲まれていること
+   - Mermaid 図が `<pre class="mermaid">` で囲まれていること
 5. WordPress REST API で下書き投稿:
    - `curl -X POST "https://takuma-h.sandboxes.jp/wp-json/wp/v2/posts"`
    - 認証: `.mcp.json` の wordpress env を参照
@@ -87,7 +87,7 @@ WordPress: OK
 
 ## Mermaid.js 図解（4種類）
 
-`<div class="mermaid">...</div>` で囲むと自動レンダリング。
+`<pre class="mermaid">...</div>` で囲むと自動レンダリング。
 対応: フローチャート、シーケンス図、ガントチャート、クラス図
 
 ## テーマ自動機能
