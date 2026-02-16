@@ -464,7 +464,7 @@ AI コーディングツールの導入効果は、感覚ではなくデータ�
 
 リポジトリは GitHub で公開しています。Claude Code を使っているチームで、活用状況の可視化に興味がある方はぜひ試してみてください。
 
-https://github.com/classlab-inc/claude-activity-tracker
+https://github.com/thirai-classlab/claude-activity-tracker
 
 ---
 
@@ -473,7 +473,7 @@ https://github.com/classlab-inc/claude-activity-tracker
 - [METR: Measuring the Impact of AI on Experienced Open-Source Developer Productivity](https://metr.org/)
 - [Claude Code Hooks ドキュメント](https://docs.anthropic.com/en/docs/claude-code/hooks)
 - [Prisma ORM ドキュメント](https://www.prisma.io/docs)
-- [claude-activity-tracker（GitHub）](https://github.com/classlab-inc/claude-activity-tracker)
+- [claude-activity-tracker（GitHub）](https://github.com/thirai-classlab/claude-activity-tracker)
 
 ---
 
