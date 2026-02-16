@@ -8,6 +8,13 @@ user-invokable: true
 
 `$ARGUMENTS` で指定された記事ディレクトリの `platforms/zenn.md` を Zenn に投稿する。
 
+## Zenn 環境
+
+- アカウント: `t_hirai`
+- 記事URL: `https://zenn.dev/t_hirai/articles/{slug}`
+- 連携リポジトリ: `thirai-classlab/technology-output`（main ブランチ）
+- デプロイ: `main` への git push で自動デプロイ
+
 ## 手順
 
 1. 記事ディレクトリ `$ARGUMENTS` の `platforms/zenn.md` を Read で読み込む
@@ -32,6 +39,7 @@ user-invokable: true
 ```
 Zenn: OK
   ファイル: articles/{slug}.md
+  公開URL: https://zenn.dev/t_hirai/articles/{slug}
   確認URL: https://zenn.dev/dashboard
   published: false
 ```

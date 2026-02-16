@@ -433,7 +433,7 @@ flowchart TB
         direction LR
         WP_SITE["WordPress<br/>takuma-h.sandboxes.jp"]
         QIITA["Qiita<br/>qiita.com/takuma-h"]
-        ZENN["Zenn<br/>zenn.dev/takuma_h"]
+        ZENN["Zenn<br/>zenn.dev/t_hirai"]
         NOTE["note<br/>note.com"]
         GITHUB["社内Git<br/>github.com/classlab-inc"]
         SLACK["Slack<br/>#input"]

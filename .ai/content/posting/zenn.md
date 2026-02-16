@@ -1,5 +1,11 @@
 # Zenn 投稿ルール
 
+## アカウント情報
+
+- アカウント: `t_hirai`
+- プロフィール: https://zenn.dev/t_hirai
+- 記事URL形式: `https://zenn.dev/t_hirai/articles/{slug}`
+
 ## フォーマット対応状況
 
 | 要素 | 対応 | 記法 |
