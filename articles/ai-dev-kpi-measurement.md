@@ -501,3 +501,8 @@ https://github.com/thirai-classlab/claude-activity-tracker
 AI駆動開発の計測・改善に興味がある方はぜひご連絡ください。
 
 https://classlab.co.jp/contact
+
+### この記事の他媒体版
+
+- [WordPress版](https://takuma-h.sandboxes.jp/ai%e9%a7%86%e5%8b%95%e9%96%8b%e7%99%ba%e3%81%ae%e7%94%9f%e7%94%a3%e6%80%a7%e3%82%92%e8%a8%88%e6%b8%ac%e3%81%99%e3%82%8b%e6%96%b9%e6%b3%95%ef%bd%9cclaude-code-hooks-api%e3%81%a7%e5%8f%af%e8%a6%96/)（ショートコード・リッチUI版）
+- [Qiita版](https://qiita.com/takuma-h/items/b528762f1a77adc3be0b)（技術詳細・コード解説重視）
