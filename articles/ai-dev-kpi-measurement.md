@@ -3,7 +3,7 @@ title: "Claude Code Hooks APIでチームのAI駆動開発KPIを自動計測・�
 emoji: "📊"
 type: "tech"
 topics: ["ClaudeCode", "AI駆動開発", "生産性", "Hooks", "TypeScript"]
-published: false
+published: true
 ---
 
 ## はじめに: AI活用の「感覚と実態のギャップ」
