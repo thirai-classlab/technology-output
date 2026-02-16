@@ -1,7 +1,7 @@
 # ナレッジ投稿システム設計
 
 > ステータス: **確定**
-> 最終更新: 2026-02-09
+> 最終更新: 2026-02-16
 
 ---
 
@@ -11,13 +11,23 @@
 
 ```mermaid
 flowchart LR
+    subgraph グローバルCLI["グローバルCLI（どこからでも実行）"]
+        GI["/output-idea<br/>ネタ帳追加"]
+        GD["/output-draft-from-dev<br/>開発下書き作成"]
+    end
+
     subgraph このプロジェクト
+        IDEAS["ideas.md<br/>ネタ帳"]
         A[テーマ・素材] --> B[対話・探索]
         B --> C[戦略策定]
         C --> D[記事執筆]
         D --> E[レビュー]
         E --> F[媒体変換]
     end
+
+    GI -->|アイデア追記| IDEAS
+    GD -->|記事ディレクトリ作成| A
+    IDEAS -.->|記事化| A
 
     subgraph MCP投稿
         F --> G[note]
@@ -33,6 +43,9 @@ flowchart LR
         M --> A
     end
 
+    style GI fill:#fff9c4,stroke:#f9a825
+    style GD fill:#fff9c4,stroke:#f9a825
+    style IDEAS fill:#ffe0b2,stroke:#e65100
     style B fill:#e3f2fd
     style C fill:#fff3e0
     style D fill:#e8f5e9
@@ -58,6 +71,9 @@ flowchart LR
 
 ```mermaid
 flowchart TD
+    GC["/output-idea<br/>/output-draft-from-dev<br/>（グローバルCLI）"]
+    IDEAS["ideas.md<br/>ネタ帳"]
+
     P1[Phase 1: INPUT]
     P2[Phase 2: EXPLORE]
     P3[Phase 3: STRATEGY]
@@ -66,6 +82,10 @@ flowchart TD
     P6[Phase 6: CONVERT]
     P7[Phase 7: POST]
     P8[Phase 8: TRACK]
+
+    GC -.->|ネタ→記事化| IDEAS
+    GC -.->|開発下書き→記事化| P1
+    IDEAS -.->|記事化| P1
 
     P1 --> P2
     P2 --> P3
@@ -77,6 +97,8 @@ flowchart TD
     P7 --> P8
     P8 -.->|次の記事へ| P1
 
+    GC:::global
+    IDEAS:::global
     P1:::human
     P2:::collab
     P3:::collab
@@ -89,6 +111,7 @@ flowchart TD
     classDef human fill:#ffcdd2,stroke:#c62828
     classDef ai fill:#c8e6c9,stroke:#2e7d32
     classDef collab fill:#e3f2fd,stroke:#1565c0
+    classDef global fill:#fff9c4,stroke:#f9a825
 ```
 
 ### 凡例
@@ -96,12 +119,13 @@ flowchart TD
 - 赤: 人間が主導
 - 緑: AIが主導
 - 青: 対話・共同作業
+- 黄: グローバルCLI（任意のプロジェクトから実行可能）
 
 ### 各Phaseの詳細
 
 | Phase | 名称 | 主導 | やること |
 |-------|------|------|----------|
-| 1 | **INPUT** | 人間 | テーマ・素材・アイデアを持ち込む |
+| 1 | **INPUT** | 人間 | テーマ・素材・アイデアを持ち込む（`/new-article` またはグローバルCLI `/output-draft-from-dev` から） |
 | 2 | **EXPLORE** | 共同 | テーマ深掘り・ペルソナ・競合調査・差別化・構成案 |
 | 3 | **STRATEGY** | 共同 | 戦略を確定（目的・KPI・媒体選択・タイミング） |
 | 4 | **DRAFT** | AI | マスター記事を執筆 |
@@ -161,6 +185,7 @@ flowchart LR
 ```
 AI時代のエンジニアスキルセット/
 ├── CLAUDE.md                          ← AI向けプロジェクト規約
+├── ideas.md                           ← ネタ帳（/output-idea で追記）
 ├── .ai/                               ← AIルール管理
 │   ├── README.md
 │   ├── dev/                           ← プロジェクト開発ルール
@@ -172,7 +197,8 @@ AI時代のエンジニアスキルセット/
 │       │   └── explore.md
 │       ├── strategy/                     Phase 3: STRATEGY 時に参照
 │       │   ├── strategy.md
-│       │   └── template.md
+│       │   ├── template.md
+│       │   └── platform-strategy-guide.md
 │       ├── writing/                      Phase 4: DRAFT 時に参照
 │       │   └── draft.md
 │       ├── review/                       Phase 5: REVIEW 時に参照
@@ -197,6 +223,9 @@ AI時代のエンジニアスキルセット/
 │   ├── post.md
 │   ├── track.md
 │   └── add-rule.md
+├── ~/.claude/commands/                ← グローバルコマンド（どこからでも実行可能）
+│   ├── output-idea.md                    ネタ帳追加
+│   └── output-draft-from-dev.md          開発下書き作成
 ├── .claude/skills/                   ← スキル（サブエージェント実行、7スキル）
 │   ├── post-wordpress/SKILL.md         WordPress REST API で投稿
 │   ├── post-qiita/SKILL.md            qiita-cli で投稿
@@ -295,6 +324,60 @@ flowchart LR
 
 | ファイル | 役割 | 内容 |
 |----------|------|------|
-| **strategy.md** | 結論 | 目的・ペルソナ・コアメッセージ・差別化・媒体戦略・タイミング・KPI |
+| **strategy.md** | 結論 | 目的・ペルソナ・コアメッセージ・差別化・媒体別戦略・タイミング・KPI |
 | **explore.md** | 過程 | 対話で出たアイデア・ボツ案・議論の経緯・調査結果 |
 | **track.md** | 振り返り | 各媒体の反響データ・分析・次回への改善点 |
+
+---
+
+## 9. グローバルCLI（外部プロジェクトからの記事化）
+
+`~/.claude/commands/` に配置するグローバルコマンドにより、任意の開発プロジェクトから記事アイデアの収集・下書き作成が可能。
+
+```mermaid
+flowchart LR
+    subgraph 外部プロジェクト["任意の開発プロジェクト"]
+        DEV["開発作業中<br/>（任意の言語・FW）"]
+    end
+
+    subgraph グローバルCLI["~/.claude/commands/"]
+        GI["/output-idea"]
+        GD["/output-draft-from-dev"]
+    end
+
+    subgraph technology-output["ナレッジ投稿プロジェクト"]
+        IDEAS["ideas.md<br/>ネタ帳"]
+        POST["posts/{NNN}-{slug}/<br/>記事ディレクトリ"]
+        WF["Phase 2: EXPLORE 以降"]
+    end
+
+    DEV -->|記事ネタを思いついた| GI
+    DEV -->|記事化したい| GD
+    GI -->|IDEA追記| IDEAS
+    GD -->|draft-notes.md +<br/>strategy.md（雛形）| POST
+    IDEAS -.->|後で記事化| POST
+    POST --> WF
+
+    style GI fill:#fff9c4,stroke:#f9a825
+    style GD fill:#fff9c4,stroke:#f9a825
+```
+
+### グローバルコマンド一覧
+
+| コマンド | 用途 | 出力先 |
+|----------|------|--------|
+| `/output-idea` | 記事ネタをideas.mdに追記 | `ideas.md` |
+| `/output-draft-from-dev` | 開発コンテキストから記事下書きを作成 | `posts/{NNN}-{slug}/` |
+
+### `/output-draft-from-dev` のフロー
+
+```mermaid
+flowchart TD
+    P1["Phase 1: プロジェクト分析<br/>git log, README, CLAUDE.md, docs/ を自動取得"]
+    P2["Phase 2: 記事内容ヒアリング<br/>テーマ・切り口・深さ・対象読者・媒体"]
+    P3["Phase 3: 記事ディレクトリ作成<br/>draft-notes.md, strategy.md 等"]
+    P4["Phase 4: 連携・案内<br/>ideas.md登録 + 次ステップ案内"]
+
+    P1 --> P2 --> P3 --> P4
+    P1 -.->|追加で読むべきファイルをヒアリング| P1
+```

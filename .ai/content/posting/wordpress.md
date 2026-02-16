@@ -36,22 +36,50 @@
 - レイアウト分割 → `[columns]` + `[column]`
 - 出典付き引用 → `[quote]`
 
-## コードブロック
+## コードブロック（Prism.js 12言語対応）
 
 - `<pre class="language-xxx" data-lang="Label"><code>...</code></pre>` 形式
-- `data-lang` 属性で右上にラベルバッジを表示（JavaScript, Python, PHP, Shell 等）
+- `data-lang` 属性で右上にラベルバッジを表示
+- 対応12言語: JavaScript, TypeScript, Python, PHP, Bash, Go, Rust, SQL, JSON, YAML, Diff, Markdown
+
+## Mermaid.js 図解（4種類対応）
+
+- `<div class="mermaid">...</div>` で囲む（Gutenbergブロックの外に配置）
+- テーマが Mermaid.js CDN を読み込み、自動レンダリングする
+- 対応: フローチャート(`flowchart`/`graph`)、シーケンス図(`sequenceDiagram`)、ガントチャート(`gantt`)、クラス図(`classDiagram`)
 
 ## 画像
 
 - WordPressのメディアライブラリが画像のマスターストレージ
 - MCPでアップロードし、他の全媒体からもこのURLを参照する
 
+## HTMLスタイル
+
+テーマCSSが以下のHTML要素をスタイリング済み:
+- `<h2>`: 紫→青グラデーション左ボーダー + 大きめフォント
+- `<h3>`: 緑の左ボーダー
+- `<h4>`: 太字
+- `<table>`: 角丸 + シャドウ + ヘッダーグラデーション + ホバーハイライト
+- `<blockquote>`: グラデーション左ボーダー + 薄い背景色 + イタリック体
+- `<code>`: 紫テキスト + グラデーション背景（インライン）
+- `<img>`: 角丸（8px）+ 中央寄せ
+- `<ul>` / `<ol>`: 適切な余白とインデント
+
 ## 構成
 
 - H2/H3で明確な階層構造（SEO考慮）
 - 冒頭にリード文
-- 目次は自動生成（テーマ機能）
+- 目次は自動生成（テーマ機能: H2/H3 から生成、スクロール追従）
 - 末尾にCTAと関連記事リンク（テーマ機能）
+
+## テーマ自動機能（変換時の対応不要）
+
+以下は engineer-blog テーマが自動提供:
+- 目次（TOC）、読了時間、閲覧数、リーディングプログレスバー
+- パンくずリスト、シェアボタン（X / Facebook / はてブ / URLコピー）
+- 著者プロフィール、関連記事、クロスプラットフォームCTA
+- OGP/SEO メタタグ、GA4 イベント（読了率・CTAクリック・コードコピー）
+- いいね機能 + サイドバーランキング
 
 ## トーン
 

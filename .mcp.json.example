@@ -48,6 +48,13 @@
         "SLACK_MCP_XOXP_TOKEN": "${SLACK_MCP_XOXP_TOKEN}",
         "SLACK_MCP_ADD_MESSAGE_TOOL": "${SLACK_CHANNEL_ID}"
       }
+    },
+    "wordpress-production": {
+      "command": "ssh",
+      "args": [
+        "root@${WP_SERVER_HOST}",
+        "cd ${WP_SERVER_PATH} && ${WP_PHP_PATH} ${WP_CLI_PATH} mcp-adapter serve --server=mcp-adapter-default-server --user=1 --allow-root"
+      ]
     }
   }
 }

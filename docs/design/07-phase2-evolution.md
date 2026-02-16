@@ -21,7 +21,7 @@ flowchart TB
         D2 --> P2["各媒体の強みを活かした投稿"]
         P2 --> A2["GA4分析→戦略改善ループ"]
         A2 -.->|フィードバック| S2
-        G2["グローバルCLI"] -.->|どこからでもネタ・下書き| D2
+        G2["グローバルCLI<br/>/output-idea, /output-draft-from-dev"] -.->|どこからでもネタ・下書き| D2
         W2["WP独自テーマ"] -.->|SEO・デザイン最適化| P2
     end
 
@@ -60,8 +60,8 @@ flowchart LR
 
 | # | 施策 | 依存 | 優先度 |
 |---|------|------|--------|
-| ① | 媒体別戦略 | なし | **最優先** |
-| ② | 媒体別最適フォーマット | ①完了後 | 高 |
+| ① | 媒体別戦略 | なし | **完了** |
+| ② | 媒体別最適フォーマット | ①完了後 | **完了** |
 | ③ | WordPress独自テーマ | ①と並行可 | 高 |
 | ④ | グローバルCLI | 独立（並行可） | 中 |
 | ⑤ | GA4分析・改善 | ②③完了後 | 高 |
@@ -253,20 +253,22 @@ themes/
 
 ### 配置先
 
+グローバルコマンドには `output-` プレフィックスを付けて、プロジェクト固有コマンドと区別する。
+
 ```
 ~/.claude/commands/
-├── sc/                       ← 既存のSuperClaudeコマンド
-├── idea.md                   ← ネタ帳追加コマンド（新規）
-└── draft-from-dev.md         ← 開発下書き作成コマンド（新規）
+├── sc/                           ← 既存のSuperClaudeコマンド
+├── output-idea.md                ← ネタ帳追加コマンド
+└── output-draft-from-dev.md      ← 開発下書き作成コマンド
 ```
 
-### コマンド①: `/idea` — ネタ帳追加
+### コマンド①: `/output-idea` — ネタ帳追加
 
-**ユーザー体験**: 任意のディレクトリで `/idea` → 対話 → ネタが保存される
+**ユーザー体験**: 任意のディレクトリで `/output-idea` → 対話 → ネタが保存される
 
 ```mermaid
 flowchart TD
-    A["/idea を実行"] --> B["対話でヒアリング"]
+    A["/output-idea を実行"] --> B["対話でヒアリング"]
     B --> C["タイトル・概要・対象媒体・タグ・優先度"]
     C --> D["ideas.md に追記"]
     D --> E["ネタ番号を返す"]
@@ -277,7 +279,7 @@ flowchart TD
     B -.-> B4["緊急性/鮮度は?"]
 ```
 
-**保存先**: `{PROJECT_ROOT}/ideas.md`（新規ファイル）
+**保存先**: `{PROJECT_ROOT}/ideas.md`
 
 ```markdown
 # ネタ帳
@@ -296,31 +298,42 @@ flowchart TD
 ## IDEA-002: ...
 ```
 
-### コマンド②: `/draft-from-dev` — 開発下書き作成
+### コマンド②: `/output-draft-from-dev` — 開発下書き作成
 
-**ユーザー体験**: 開発中のプロジェクトで `/draft-from-dev` → ヒアリング → 下書きが保存される
+**ユーザー体験**: 開発中のプロジェクトで `/output-draft-from-dev` → 4フェーズでヒアリング → 下書きが保存される
 
 ```mermaid
 flowchart TD
-    A["/draft-from-dev を実行<br/>（任意のディレクトリで）"]
-    A --> B["現在のプロジェクト分析<br/>git log, README, 技術スタック"]
-    B --> C["対話でヒアリング"]
-    C --> D["何を記事にしたい?<br/>どんな課題を解決した?<br/>読者に何を伝えたい?"]
-    D --> E["下書きMarkdown生成"]
-    E --> F["technology-output/posts/ に保存"]
-    F --> G["次のステップを案内<br/>（/explore → /strategy → ...）"]
+    A["/output-draft-from-dev を実行<br/>（任意のディレクトリで）"]
+    A --> P1["Phase 1: プロジェクト分析<br/>git log, README, CLAUDE.md,<br/>docs/, 技術スタック"]
+    P1 --> P1a["追加で読むファイルをヒアリング"]
+    P1a --> P2["Phase 2: 記事内容ヒアリング"]
+    P2 --> P2a["テーマ・伝えたいポイント<br/>切り口・技術深度<br/>コードサンプル・図解方針"]
+    P2a --> P2b["対象読者・媒体・優先度"]
+    P2b --> P3["Phase 3: ディレクトリ作成<br/>draft-notes.md + strategy.md"]
+    P3 --> P4["Phase 4: ideas.md 連携<br/>次ステップ案内"]
 ```
 
-**ヒアリング項目**:
-1. 何を作った/解決したか（コンテキスト自動取得 + 補足質問）
-2. 記事の切り口（ハウツー / 事例紹介 / 比較 / 振り返り）
-3. 対象読者
-4. 対象媒体（複数選択）
-5. 優先度・鮮度
+**Phase 1 — プロジェクト分析（自動取得）**:
+- `git log --oneline -20`、`git diff --stat HEAD~5..HEAD`
+- `README.md`、`CLAUDE.md`（プロジェクト規約・アーキテクチャ）
+- `docs/` 配下の設計資料
+- 技術スタック（package.json, pyproject.toml 等）
+- ユーザーに追加で読むべきファイルをヒアリング
 
-**保存**:
+**Phase 2 — 記事内容のヒアリング**:
+1. 何を記事にしたいか（機能紹介 / 課題解決 / 技術選定 / アーキテクチャ / Tips）
+2. 特に伝えたいポイント、課題→解決のストーリー
+3. 読者が持ち帰れる学び
+4. 記事の切り口（ハウツー / 事例 / 比較 / 振り返り / トラブルシュート / チュートリアル）
+5. 技術的な深さ（入門 / 中級 / 上級）
+6. コードサンプル・図解（Mermaid）の方針
+7. 対象読者・対象媒体・優先度・鮮度
+
+**Phase 3 — 保存**:
 - `posts/{NNN}-{slug}/` ディレクトリ作成
-- `draft-notes.md` に開発コンテキスト + ヒアリング結果を保存
+- `draft-notes.md`: 開発コンテキスト + ヒアリング結果を構造化
+- `strategy.md`: テンプレートから作成（埋められる項目は埋める）
 - `ideas.md` にも登録（ネタ帳との連携）
 
 ---
@@ -438,9 +451,9 @@ gantt
     デプロイ・テスト            :c4, after c3, 1d
 
     section ④ グローバルCLI
-    /idea コマンド             :d1, 2026-02-16, 1d
-    /draft-from-dev コマンド   :d2, after d1, 1d
-    ideas.md 作成              :d3, after d2, 1d
+    /output-idea コマンド              :d1, 2026-02-16, 1d
+    /output-draft-from-dev コマンド    :d2, after d1, 1d
+    ideas.md 作成                      :d3, after d2, 1d
 
     section ⑤ GA4分析
     GA4 API連携スクリプト      :e1, after b3, 1d
@@ -464,8 +477,8 @@ gantt
 | `themes/` (ディレクトリ一式) | ③ |
 | `scripts/collect-ga4.py` | ⑤ |
 | `ideas.md` | ④ |
-| `~/.claude/commands/idea.md` | ④ |
-| `~/.claude/commands/draft-from-dev.md` | ④ |
+| `~/.claude/commands/output-idea.md` | ④ |
+| `~/.claude/commands/output-draft-from-dev.md` | ④ |
 
 ### 変更
 

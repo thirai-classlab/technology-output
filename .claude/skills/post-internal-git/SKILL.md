@@ -1,8 +1,7 @@
 ---
 name: post-internal-git
 description: 社内Git（classlab-inc/document/Knowledge）に記事を投稿する。/post コマンドからサブエージェントとして呼び出される。
-context: fork
-user-invocable: true
+user-invokable: true
 ---
 
 # 社内Git 投稿

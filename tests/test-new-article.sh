@@ -106,7 +106,7 @@ echo "[strategy.md の内容検証]"
 assert_file_contains "$TEST_DIR/strategy.md" 'ステータス' "strategy.md にステータスフィールドがある"
 assert_file_contains "$TEST_DIR/strategy.md" 'ペルソナ' "strategy.md にペルソナセクションがある"
 assert_file_contains "$TEST_DIR/strategy.md" 'コアメッセージ' "strategy.md にコアメッセージセクションがある"
-assert_file_contains "$TEST_DIR/strategy.md" '媒体戦略' "strategy.md に媒体戦略セクションがある"
+assert_file_contains "$TEST_DIR/strategy.md" '媒体別戦略' "strategy.md に媒体別戦略セクションがある"
 assert_file_contains "$TEST_DIR/strategy.md" 'KPI' "strategy.md にKPIセクションがある"
 
 echo "[explore.md の内容検証]"

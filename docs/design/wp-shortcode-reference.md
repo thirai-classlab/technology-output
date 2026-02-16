@@ -1,7 +1,14 @@
-# WordPress ショートコード & HTMLスタイル リファレンス
+# Engineer Blog テーマ 全機能リファレンス
 
-Engineer Blog テーマ（engineer-blog）で使用可能なショートコードとHTMLスタイルの一覧。
+Engineer Blog テーマ（engineer-blog v1.0.0）で使用可能な全機能の一覧。
 `/convert` で master.md → wordpress.md に変換する際、この仕様に従ってリッチなコンテンツを生成する。
+
+テーマは以下の4カテゴリの機能を提供する:
+1. **ショートコード** — 11種の独自ショートコード
+2. **HTMLスタイル** — テーマCSSによるHTML要素のスタイリング
+3. **コードハイライト** — Prism.js による12言語対応シンタックスハイライト
+4. **Mermaid.js 図解** — 4種類のダイアグラム自動レンダリング
+5. **テーマ自動機能** — 目次・読了時間・閲覧数・シェアボタン等
 
 ---
 
@@ -210,7 +217,7 @@ A vs B の比較表示。ヘッダーに「VS」表記。
 - `<h3>`: 緑の左ボーダー
 - `<h4>`: ボーダーなし、太字
 
-### コードブロック
+### コードブロック（Prism.js 12言語対応）
 
 ```html
 <pre class="language-javascript" data-lang="JavaScript"><code>
@@ -220,7 +227,24 @@ const hello = "world";
 
 - ダーク背景 + 角丸 + シャドウ
 - `data-lang` 属性でラベルバッジを表示（右上にグラデーション背景）
-- 対応言語ラベル例: `JavaScript`, `TypeScript`, `Python`, `PHP`, `Shell`, `HTML`, `CSS`
+- Prism.js によるシンタックスハイライト
+
+#### 対応言語一覧（12言語）
+
+| CSS クラス | `data-lang` ラベル | 用途 |
+|-----------|-------------------|------|
+| `language-javascript` | `JavaScript` | フロントエンド / Node.js |
+| `language-typescript` | `TypeScript` | 型付きJS |
+| `language-python` | `Python` | バックエンド / AI / スクリプト |
+| `language-php` | `PHP` | WordPress / サーバーサイド |
+| `language-bash` | `Bash` | シェルスクリプト / コマンド |
+| `language-go` | `Go` | バックエンド / インフラ |
+| `language-rust` | `Rust` | システム / パフォーマンス |
+| `language-sql` | `SQL` | データベースクエリ |
+| `language-json` | `JSON` | 設定ファイル / APIレスポンス |
+| `language-yaml` | `YAML` | CI/CD / 設定ファイル |
+| `language-diff` | `Diff` | 差分表示 |
+| `language-markdown` | `Markdown` | ドキュメント記法 |
 
 ### インラインコード
 
@@ -276,7 +300,7 @@ const hello = "world";
 
 - 角丸（8px）+ 中央寄せ
 
-### Mermaid 図
+### Mermaid.js 図解（4種類対応）
 
 ```html
 <div class="mermaid">
@@ -286,6 +310,38 @@ graph TD
 ```
 
 - 薄い背景 + ボーダー + 角丸 + 中央寄せ
+- Mermaid.js による自動レンダリング（CDN読み込み）
+
+#### 対応ダイアグラム
+
+| 種類 | Mermaid記法 | 用途 |
+|------|------------|------|
+| フローチャート | `flowchart TD` / `graph TD` | 処理フロー、意思決定フロー |
+| シーケンス図 | `sequenceDiagram` | API呼び出し、コンポーネント間通信 |
+| ガントチャート | `gantt` | プロジェクトスケジュール、タイムライン |
+| クラス図 | `classDiagram` | データモデル、クラス構造 |
+
+#### 変換例
+
+master.md:
+````
+```mermaid
+flowchart TD
+  A[要件定義] --> B{AIで実装可能?}
+  B -->|Yes| C[プロンプト設計]
+  B -->|No| D[手動実装]
+```
+````
+
+wordpress.md:
+```html
+<div class="mermaid">
+flowchart TD
+  A[要件定義] --> B{AIで実装可能?}
+  B -->|Yes| C[プロンプト設計]
+  B -->|No| D[手動実装]
+</div>
+```
 
 ---
 
@@ -353,5 +409,46 @@ master.md のMarkdown記法から WordPress 用への変換ガイドライン:
 | 比較表 | `[comparison]` ショートコード |
 | 2〜4列レイアウト | `[columns]` + `[column]` ショートコード |
 | `**太字キーワード**` | そのまま `<strong>` または `[badge]` |
-| コードブロック ````lang` | `<pre class="language-lang" data-lang="Lang"><code>...</code></pre>` |
-| Mermaid ````mermaid` | `<div class="mermaid">...</div>` |
+| `*斜体*` | `<em>テキスト</em>` |
+| `~~打ち消し~~` | `<del>テキスト</del>` |
+| `` `インラインコード` `` | `<code>コード</code>`（紫テキスト + グラデーション背景） |
+| `[リンク](url)` | `<a href="url">リンク</a>` |
+| コードブロック `` ```lang `` | `<pre class="language-lang" data-lang="Lang"><code>...</code></pre>` |
+| Mermaid `` ```mermaid `` | `<div class="mermaid">...</div>` |
+| `![alt](url)` | `<figure class="wp-block-image"><img src="url" alt="alt" /></figure>` |
+| `---`（水平線） | `<hr />` |
+
+---
+
+## テーマ自動機能
+
+以下の機能は記事を書くだけで自動的に適用される。変換時に意識する必要はないが、SEOメタ情報の設定は必要。
+
+| 機能 | 説明 | 設定 |
+|------|------|------|
+| 目次（TOC） | H2/H3から自動生成、スクロール追従 | 不要 |
+| 読了時間 | 日本語600文字/分で自動計算 | 不要 |
+| 閲覧数 | ページビューを自動カウント | 不要 |
+| リーディングプログレスバー | 読み進め具合をページ上部に表示 | 不要 |
+| パンくずリスト | カテゴリに基づき自動生成 | 不要 |
+| シェアボタン | X / Facebook / はてブ / URLコピー | 不要 |
+| 著者プロフィール | WPユーザー情報から自動表示 | プロフィール設定 |
+| 関連記事 | 同カテゴリ・タグから自動抽出 | 不要 |
+| クロスプラットフォームCTA | note/Qiita/Zennへの誘導 | カスタマイザー |
+| OGP/SEO メタタグ | 構造化データ自動出力 | SEOメタボックス |
+| GA4イベント | 読了率・CTAクリック・コードコピー | カスタマイザー |
+| いいね機能 | 記事ごとのいいねボタン + ランキング | 不要 |
+| Mermaidレンダリング | `<div class="mermaid">` を図解に自動変換 | 不要 |
+| コード言語ラベル | `data-lang` 属性で右上にラベル表示 | 不要 |
+| Prism.js ハイライト | 12言語のシンタックスハイライト | 不要 |
+
+### SEOメタ情報（変換時に必須）
+
+```html
+<!-- SEO
+title: SEOタイトル（60字以内）
+description: メタディスクリプション（120字以内）
+category: カテゴリ
+tags: タグ1, タグ2
+-->
+```

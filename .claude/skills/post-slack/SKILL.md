@@ -1,8 +1,7 @@
 ---
 name: post-slack
 description: 記事公開後に Slack で社内展開する。/post コマンドからサブエージェントとして呼び出される。
-context: fork
-user-invocable: true
+user-invokable: true
 ---
 
 # Slack 社内展開

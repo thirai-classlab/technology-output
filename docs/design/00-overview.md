@@ -1,7 +1,7 @@
 # ナレッジ投稿システム 概要設計
 
 > ステータス: **確定**
-> 最終更新: 2026-02-09
+> 最終更新: 2026-02-16
 
 ---
 
@@ -80,6 +80,9 @@ flowchart LR
     P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8
     P5 -.->|修正| P4
     P8 -.->|次の記事| P1
+
+    GC["/output-idea<br/>/output-draft-from-dev<br/>（グローバルCLI）"]
+    GC -.->|ネタ→記事化| P1
 
     P1:::human
     P2:::collab
@@ -298,6 +301,7 @@ flowchart LR
 ```
 AI時代のエンジニアスキルセット/
 ├── CLAUDE.md
+├── ideas.md                          ← ネタ帳（/output-idea で追記）
 ├── .ai/
 │   ├── dev/
 │   │   ├── structure.md
@@ -327,6 +331,9 @@ AI時代のエンジニアスキルセット/
 │   ├── post.md
 │   ├── track.md
 │   └── add-rule.md
+├── ~/.claude/commands/                ← グローバルコマンド（どこからでも実行可能）
+│   ├── output-idea.md                    ネタ帳追加
+│   └── output-draft-from-dev.md          開発下書き作成
 ├── .claude/skills/                    ← スキル（サブエージェント実行）
 │   ├── post-wordpress/SKILL.md
 │   ├── post-qiita/SKILL.md
@@ -400,7 +407,7 @@ flowchart TB
 | Script | scripts/post-note.py | note投稿（API） | post-note |
 | CLI | qiita-cli | Qiita投稿 | post-qiita |
 | CLI | zenn-cli | Zenn投稿（git push） | post-zenn |
-| API | WordPress REST API | WordPress投稿・画像管理 | post-wordpress |
+| API | WordPress REST API + MCP Adapter | WordPress投稿・画像管理（engineer-blog テーマ、ショートコード対応） | post-wordpress |
 | API | GitHub API (github-internal) | 社内Git投稿（classlab-inc/document/Knowledge） | post-internal-git |
 | MCP | Slack MCP | 社内展開通知（#input） | post-slack |
 | AI | Claude Code Commands | ワークフロー制御・コマンド実行 | - |

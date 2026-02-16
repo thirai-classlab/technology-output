@@ -1,8 +1,7 @@
 ---
 name: post-note
 description: note.com に API で記事を下書き投稿または公開する。/post コマンドからサブエージェントとして呼び出される。
-context: fork
-user-invocable: true
+user-invokable: true
 ---
 
 # note 投稿（API）

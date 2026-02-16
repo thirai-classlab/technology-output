@@ -1,8 +1,7 @@
 ---
 name: post-test
 description: 全媒体にテスト記事を下書き投稿し、接続・認証の動作確認を行う。
-context: fork
-user-invocable: true
+user-invokable: true
 ---
 
 # 投稿テスト

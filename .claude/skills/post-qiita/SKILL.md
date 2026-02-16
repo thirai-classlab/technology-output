@@ -1,8 +1,7 @@
 ---
 name: post-qiita
 description: Qiita に記事を下書き投稿または公開する。/post コマンドからサブエージェントとして呼び出される。
-context: fork
-user-invocable: true
+user-invokable: true
 ---
 
 # Qiita 投稿
